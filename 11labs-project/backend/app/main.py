@@ -17,9 +17,10 @@ structlog.configure(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    if not settings.elevenlabs_webhook_secret:
-        raise RuntimeError("ELEVENLABS_WEBHOOK_SECRET must be set")
-    await init_pool()
+    try:
+        await init_pool()
+    except Exception as exc:
+        structlog.get_logger().warning("db_pool_init_failed", error=str(exc))
     yield
     await close_pool()
 

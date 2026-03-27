@@ -14,6 +14,10 @@ MAX_TIMESTAMP_AGE_SECONDS = 300  # 5 minutes
 
 async def verify_elevenlabs_signature(request: Request) -> bytes:
     """Verify ElevenLabs webhook HMAC signature. Returns raw body on success."""
+    if not settings.elevenlabs_webhook_secret:
+        logger.warning("webhook_auth_failed", reason="missing_webhook_secret")
+        raise HTTPException(status_code=503, detail="Webhook secret not configured")
+
     sig_header = request.headers.get("ElevenLabs-Signature", "")
     if not sig_header:
         logger.warning("webhook_auth_failed", reason="missing_signature_header")
