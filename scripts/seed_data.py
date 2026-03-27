@@ -3,8 +3,11 @@ import asyncio
 import json
 import sys
 import os
+from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 import asyncpg
 
@@ -12,7 +15,7 @@ import asyncpg
 async def seed(database_url: str):
     conn = await asyncpg.connect(database_url)
 
-    with open("data/memory/sarah_chen.json") as f:
+    with open(ROOT_DIR / "data" / "memory" / "sarah_chen.json") as f:
         memory = json.load(f)
 
     await conn.execute(

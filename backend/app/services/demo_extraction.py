@@ -2,6 +2,8 @@
 Production uses ElevenLabs native Data Collection via post-call webhooks."""
 
 import json
+import re
+
 import anthropic
 import structlog
 from app.config import settings
@@ -24,6 +26,15 @@ def get_anthropic_client():
     return anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
 
 
+def _strip_json_fences(text: str) -> str:
+    """Remove markdown code fences if present."""
+    text = text.strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*\n?", "", text)
+        text = re.sub(r"\n?```\s*$", "", text)
+    return text.strip()
+
+
 async def extract_memory_from_transcript(transcript: str) -> dict:
     """Demo-only: extract structured memory from a raw transcript via Claude."""
     client = get_anthropic_client()
@@ -34,4 +45,4 @@ async def extract_memory_from_transcript(transcript: str) -> dict:
         system=EXTRACTION_PROMPT,
     )
     text = response.content[0].text
-    return json.loads(text)
+    return json.loads(_strip_json_fences(text))

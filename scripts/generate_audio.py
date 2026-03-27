@@ -10,7 +10,8 @@ from elevenlabs import ElevenLabs
 CUSTOMER_VOICE_ID = "EXAVITQu4vr4xnSDxMaL"  # Sarah (female)
 AGENT_VOICE_ID = "onwK4e9ZLuTAKqWW03F9"  # Daniel (male)
 
-OUTPUT_DIR = Path("frontend/public/audio")
+ROOT_DIR = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = ROOT_DIR / "frontend" / "public" / "audio"
 
 
 def generate_audio(client: ElevenLabs, text: str, voice_id: str, filename: str):
@@ -42,9 +43,9 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     transcript_files = [
-        "data/transcripts/call1.json",
-        "data/transcripts/call2_without_memory.json",
-        "data/transcripts/call2_with_memory.json",
+        ROOT_DIR / "data" / "transcripts" / "call1.json",
+        ROOT_DIR / "data" / "transcripts" / "call2_without_memory.json",
+        ROOT_DIR / "data" / "transcripts" / "call2_with_memory.json",
     ]
 
     for tf in transcript_files:

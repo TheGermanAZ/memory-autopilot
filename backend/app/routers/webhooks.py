@@ -44,9 +44,9 @@ async def post_call_webhook(request: Request):
 
     if not raw_caller_id:
         logger.warning("post_call_no_caller_id", conversation_id=payload.conversation_id)
-        raw_caller_id = f"unknown_{payload.conversation_id}"
-
-    caller_id = normalize_e164(raw_caller_id)
+        caller_id = f"unknown_{payload.conversation_id}"
+    else:
+        caller_id = normalize_e164(raw_caller_id)
 
     pool = get_pool()
     inserted = await store_post_call_memory(
@@ -67,14 +67,13 @@ async def post_call_webhook(request: Request):
     return {"status": "ok", "new": inserted}
 
 
+# Note: ElevenLabs conversation-init webhooks use header-based auth
+# configured in the agent's Security tab, not HMAC signing.
+# For this demo, the endpoint is open. Production should verify
+# the auth header configured in ElevenLabs agent settings.
 @router.post("/conversation-init")
-async def conversation_init(request: Request):
-    body = await request.json()
-
-    raw_caller_id = body.get("caller_id", "")
-    if not raw_caller_id:
-        logger.warning("conversation_init_missing_caller_id")
-        return Response(status_code=400, content="Missing caller_id")
+async def conversation_init(payload: ConversationInitPayload):
+    raw_caller_id = payload.caller_id
 
     caller_id = normalize_e164(raw_caller_id)
     pool = get_pool()

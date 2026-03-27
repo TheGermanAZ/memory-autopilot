@@ -63,12 +63,12 @@ async def store_post_call_memory(
             await conn.execute(
                 """
                 UPDATE caller_profiles SET
-                    customer_name = COALESCE(NULLIF($2, ''), customer_name),
-                    issue_summary = COALESCE(NULLIF($3, ''), issue_summary),
-                    issue_type = COALESCE(NULLIF($4, ''), issue_type),
-                    order_id = COALESCE(NULLIF($5, ''), order_id),
-                    customer_sentiment = COALESCE(NULLIF($6, ''), customer_sentiment),
-                    open_actions = COALESCE(NULLIF($7, ''), open_actions),
+                    customer_name = $2,
+                    issue_summary = $3,
+                    issue_type = $4,
+                    order_id = $5,
+                    customer_sentiment = $6,
+                    open_actions = $7,
                     updated_at = now()
                 WHERE caller_id = $1
                 """,

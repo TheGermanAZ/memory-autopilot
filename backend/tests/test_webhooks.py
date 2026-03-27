@@ -124,4 +124,4 @@ async def test_conversation_init_missing_caller_id(client):
         "/webhooks/elevenlabs/conversation-init",
         json={"agent_id": "agent_test"},
     )
-    assert resp.status_code == 400
+    assert resp.status_code == 422

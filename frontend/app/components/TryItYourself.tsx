@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
 const SAMPLE_TRANSCRIPT = `Customer: Hi, my name is Sarah Chen. I'm calling about my March invoice — I was charged twice for the premium plan.
 Agent: I'm sorry to hear that, Sarah. Can you give me your order number?
 Customer: It's ORD-4521. This is really frustrating.`;
@@ -19,7 +21,7 @@ export function TryItYourself() {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/demo/extract`,
+        `${API_URL}/api/demo/extract`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

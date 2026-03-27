@@ -17,6 +17,8 @@ structlog.configure(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    if not settings.elevenlabs_webhook_secret:
+        raise RuntimeError("ELEVENLABS_WEBHOOK_SECRET must be set")
     await init_pool()
     yield
     await close_pool()

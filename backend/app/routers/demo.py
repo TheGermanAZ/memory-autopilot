@@ -13,9 +13,13 @@ from app.services.memory import get_caller_profile
 logger = structlog.get_logger()
 router = APIRouter(prefix="/api/demo", tags=["demo"])
 
+DEMO_CALLER_ID = "+15551234567"
+
 
 @router.get("/memory/{caller_id}")
 async def get_demo_memory(caller_id: str) -> CallerProfile:
+    if caller_id != DEMO_CALLER_ID:
+        raise HTTPException(status_code=404, detail="Caller not found")
     pool = get_pool()
     profile = await get_caller_profile(pool, caller_id)
     if profile is None:
