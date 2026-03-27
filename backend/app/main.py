@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.db import init_pool, close_pool
-from app.routers import webhooks, health
+from app.routers import webhooks, health, demo
 
 structlog.configure(
     processors=[
@@ -33,3 +33,4 @@ app.add_middleware(
 
 app.include_router(webhooks.router)
 app.include_router(health.router)
+app.include_router(demo.router)
