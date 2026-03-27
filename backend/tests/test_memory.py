@@ -1,7 +1,7 @@
 import pytest
 from app.services.memory import store_post_call_memory, get_caller_profile
 
-pytestmark = pytest.mark.asyncio
+pytestmark = pytest.mark.asyncio(loop_scope="session")
 
 
 async def test_create_caller_profile(db_pool):

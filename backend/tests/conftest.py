@@ -8,6 +8,7 @@ from typing import AsyncGenerator
 
 import asyncpg
 import pytest
+import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from testcontainers.postgres import PostgresContainer
 
@@ -15,10 +16,8 @@ WEBHOOK_SECRET = "test-webhook-secret-1234"
 
 
 @pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+def event_loop_policy():
+    return asyncio.DefaultEventLoopPolicy()
 
 
 @pytest.fixture(scope="session")
@@ -27,7 +26,7 @@ def postgres_container():
         yield pg
 
 
-@pytest.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
 async def db_pool(postgres_container) -> AsyncGenerator[asyncpg.Pool, None]:
     url = postgres_container.get_connection_url().replace("postgresql+psycopg2://", "postgresql://")
     pool = await asyncpg.create_pool(url, min_size=1, max_size=5)
@@ -38,14 +37,14 @@ async def db_pool(postgres_container) -> AsyncGenerator[asyncpg.Pool, None]:
     await pool.close()
 
 
-@pytest.fixture(autouse=True)
+@pytest_asyncio.fixture(autouse=True, loop_scope="session")
 async def clean_tables(db_pool):
     yield
     await db_pool.execute("DELETE FROM memory_snapshots")
     await db_pool.execute("DELETE FROM caller_profiles")
 
 
-@pytest.fixture
+@pytest_asyncio.fixture(loop_scope="session")
 async def client(db_pool, monkeypatch) -> AsyncGenerator[AsyncClient, None]:
     monkeypatch.setenv("DATABASE_URL", "unused")
     monkeypatch.setenv("ELEVENLABS_WEBHOOK_SECRET", WEBHOOK_SECRET)
@@ -53,7 +52,12 @@ async def client(db_pool, monkeypatch) -> AsyncGenerator[AsyncClient, None]:
 
     # Force settings reload with test env vars
     from app import config as config_module
-    config_module.settings = config_module.Settings()
+    new_settings = config_module.Settings()
+    config_module.settings = new_settings
+
+    # Patch settings in all modules that import it directly
+    from app.services import webhook_auth as wa_module
+    monkeypatch.setattr(wa_module, "settings", new_settings)
 
     from app.main import app
     from app import db as db_module
@@ -65,8 +69,11 @@ async def client(db_pool, monkeypatch) -> AsyncGenerator[AsyncClient, None]:
 
 
 def sign_payload(payload: dict, secret: str = WEBHOOK_SECRET) -> dict:
-    """Generate ElevenLabs-Signature header for a payload."""
-    body = json.dumps(payload).encode()
+    """Generate ElevenLabs-Signature header for a payload.
+
+    Uses compact JSON (no spaces) to match httpx's default serialization.
+    """
+    body = json.dumps(payload, separators=(",", ":")).encode()
     timestamp = str(int(time.time()))
     sig_payload = f"{timestamp}.{body.decode()}"
     signature = hmac.new(secret.encode(), sig_payload.encode(), hashlib.sha256).hexdigest()
