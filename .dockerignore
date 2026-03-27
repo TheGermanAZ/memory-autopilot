@@ -1,0 +1,14 @@
+.git
+.venv
+**/.venv
+__pycache__
+**/__pycache__
+*.pyc
+.env
+.env.*
+.superpowers
+.vercel
+11labs-project/frontend
+11labs-project/.git
+11labs-project/.projects
+11labs-project/docs
