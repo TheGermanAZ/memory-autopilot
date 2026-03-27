@@ -2,7 +2,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY 11labs-project/backend/requirements.txt ./requirements.txt
+COPY 11labs-project/backend/requirements.deploy.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY 11labs-project/backend/ ./
