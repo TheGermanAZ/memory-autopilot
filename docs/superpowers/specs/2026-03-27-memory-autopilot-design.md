@@ -118,7 +118,7 @@ POST /webhooks/elevenlabs/post-call
 POST /webhooks/elevenlabs/conversation-init
 ```
 - Called by ElevenLabs during Twilio dial tone when a new call arrives
-- Receives: `caller_id` (E.164 phone), `agent_id`, `called_number`, `call_sid`
+- Receives top-level POST body fields: `caller_id` (E.164 phone), `agent_id`, `called_number`, `call_sid`
 - Single indexed read on `caller_profiles`
 - Returns ALL defined dynamic variable keys every time:
   - Known caller: populated from profile
@@ -195,9 +195,11 @@ CREATE INDEX idx_snapshots_caller
 ### Idempotency
 
 Duplicate webhook deliveries are handled in a single transaction:
-1. `INSERT INTO memory_snapshots ... ON CONFLICT (conversation_id) DO NOTHING`
-2. Check if insert happened (row count)
-3. Only if insert succeeded: `INSERT INTO caller_profiles ... ON CONFLICT (caller_id) DO UPDATE`
+1. `INSERT INTO caller_profiles (caller_id) VALUES (...) ON CONFLICT DO NOTHING` — ensure profile row exists (no-op if already there)
+2. `INSERT INTO memory_snapshots ... ON CONFLICT (conversation_id) DO NOTHING` — idempotent snapshot insert
+3. Only if snapshot insert succeeded (row count > 0): `UPDATE caller_profiles SET ... WHERE caller_id = ...` — update profile fields
+
+Profile row is created first to satisfy the FK constraint. Profile fields are only updated if the snapshot is new, preventing double-counting.
 
 This prevents double-counting on profile updates when the same webhook is delivered twice.
 
@@ -336,7 +338,7 @@ Scroll-through narrative, top to bottom:
 
 ~10 tests, focused on webhook correctness and failure modes:
 
-### test_webhooks.py (7 tests — the backbone)
+### test_webhooks.py (8 tests — the backbone)
 - `test_post_call_webhook_stores_memory` — valid HMAC + payload → profile + snapshot created
 - `test_post_call_webhook_rejects_invalid_signature` — bad HMAC → 401, nothing written
 - `test_post_call_webhook_rejects_malformed_payload` — valid HMAC but bad payload shape → 422, nothing written
