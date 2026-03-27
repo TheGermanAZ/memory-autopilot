@@ -1,0 +1,8 @@
+{
+  "lines": [
+    {"role": "agent", "text": "Thank you for calling support, how can I help you today?", "audio": "call2_no_mem_agent_01.mp3"},
+    {"role": "customer", "text": "Hi, this is Sarah Chen. I called two days ago about a double charge on my account.", "audio": "call2_no_mem_customer_01.mp3"},
+    {"role": "agent", "text": "I'm sorry to hear that. Can you tell me your order number and what the issue was?", "audio": "call2_no_mem_agent_02.mp3"},
+    {"role": "customer", "text": "It's ORD-4521. I was charged twice for the premium plan. Someone was supposed to process a refund.", "audio": "call2_no_mem_customer_02.mp3"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "lines": [
+    {"role": "customer", "text": "Hi, my name is Sarah Chen. I'm calling about my March invoice — I was charged twice for the premium plan.", "audio": "call1_customer_01.mp3"},
+    {"role": "agent", "text": "I'm sorry to hear that, Sarah. Can you give me your order number?", "audio": "call1_agent_01.mp3"},
+    {"role": "customer", "text": "It's ORD-4521. This is really frustrating, I've been a customer for two years and this is the second time this has happened.", "audio": "call1_customer_02.mp3"},
+    {"role": "agent", "text": "I understand your frustration. Let me look into order ORD-4521. I can see the duplicate charge. I'm going to escalate this to our billing team and they'll process a refund within 48 hours.", "audio": "call1_agent_02.mp3"},
+    {"role": "customer", "text": "Okay, thank you. Please make sure someone actually follows up this time.", "audio": "call1_customer_03.mp3"},
+    {"role": "agent", "text": "Absolutely, Sarah. I've noted that follow-up is important to you. You'll hear from us within 48 hours. Is there anything else I can help with?", "audio": "call1_agent_03.mp3"},
+    {"role": "customer", "text": "No, that's all. Thank you.", "audio": "call1_customer_04.mp3"}
+  ]
+}

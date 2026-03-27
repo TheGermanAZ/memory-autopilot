@@ -1,0 +1,8 @@
+{
+  "customer_name": "Sarah Chen",
+  "issue_type": "billing",
+  "issue_summary": "Double charged for premium plan",
+  "order_id": "ORD-4521",
+  "customer_sentiment": "frustrated",
+  "open_actions": "Refund pending — follow up within 48 hours"
+}

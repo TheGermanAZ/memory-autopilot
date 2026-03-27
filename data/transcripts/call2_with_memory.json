@@ -1,0 +1,8 @@
+{
+  "lines": [
+    {"role": "agent", "text": "Hi Sarah, welcome back. I can see you called two days ago about a double charge on order ORD-4521. Let me check on the status of your refund.", "audio": "call2_mem_agent_01.mp3"},
+    {"role": "customer", "text": "Oh wow, yes, that's exactly right. Has the refund been processed?", "audio": "call2_mem_customer_01.mp3"},
+    {"role": "agent", "text": "It looks like the refund was processed yesterday. Can you check your account to confirm you see it?", "audio": "call2_mem_agent_02.mp3"},
+    {"role": "customer", "text": "Let me check... yes, I see it. Thank you so much for following up.", "audio": "call2_mem_customer_02.mp3"}
+  ]
+}

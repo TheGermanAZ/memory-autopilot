@@ -1,0 +1,12 @@
+{
+  "note": "Reference config for ElevenLabs agent setup. Not used by code.",
+  "data_collection_fields": [
+    {"identifier": "customer_name", "type": "string", "description": "Full name of the caller"},
+    {"identifier": "issue_type", "type": "string", "description": "Category: billing, technical, general, complaint"},
+    {"identifier": "issue_summary", "type": "string", "description": "One-sentence summary of the caller's primary issue"},
+    {"identifier": "order_id", "type": "string", "description": "Order or reference number if mentioned"},
+    {"identifier": "customer_sentiment", "type": "string", "description": "Emotional state: frustrated, neutral, satisfied, angry, anxious"},
+    {"identifier": "open_actions", "type": "string", "description": "Promised follow-ups or pending items"}
+  ],
+  "dynamic_variables": ["customer_name", "issue_summary", "issue_type", "order_id", "customer_sentiment", "open_actions", "caller_phone"]
+}
