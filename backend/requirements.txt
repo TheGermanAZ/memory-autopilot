@@ -5,7 +5,6 @@ pydantic==2.10.0
 pydantic-settings==2.7.0
 structlog==24.4.0
 httpx==0.28.0
-anthropic==0.43.0
 pytest==8.3.0
 pytest-asyncio==0.25.0
 testcontainers[postgres]==4.9.0

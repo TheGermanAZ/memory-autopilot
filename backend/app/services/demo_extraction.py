@@ -4,7 +4,7 @@ Production uses ElevenLabs native Data Collection via post-call webhooks."""
 import json
 import re
 
-import anthropic
+import httpx
 import structlog
 from app.config import settings
 
@@ -22,10 +22,6 @@ Return ONLY valid JSON with these exact keys:
 Only include facts explicitly stated in the transcript."""
 
 
-def get_anthropic_client():
-    return anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
-
-
 def _strip_json_fences(text: str) -> str:
     """Remove markdown code fences if present."""
     text = text.strip()
@@ -36,13 +32,25 @@ def _strip_json_fences(text: str) -> str:
 
 
 async def extract_memory_from_transcript(transcript: str) -> dict:
-    """Demo-only: extract structured memory from a raw transcript via Claude."""
-    client = get_anthropic_client()
-    response = await client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=512,
-        messages=[{"role": "user", "content": transcript}],
-        system=EXTRACTION_PROMPT,
-    )
-    text = response.content[0].text
-    return json.loads(_strip_json_fences(text))
+    """Demo-only: extract structured memory from a raw transcript via OpenRouter."""
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {settings.openrouter_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": settings.openrouter_model,
+                "messages": [
+                    {"role": "system", "content": EXTRACTION_PROMPT},
+                    {"role": "user", "content": transcript},
+                ],
+                "max_tokens": 512,
+            },
+            timeout=30.0,
+        )
+        response.raise_for_status()
+        data = response.json()
+        text = data["choices"][0]["message"]["content"]
+        return json.loads(_strip_json_fences(text))

@@ -48,7 +48,7 @@ async def clean_tables(db_pool):
 async def client(db_pool, monkeypatch) -> AsyncGenerator[AsyncClient, None]:
     monkeypatch.setenv("DATABASE_URL", "unused")
     monkeypatch.setenv("ELEVENLABS_WEBHOOK_SECRET", WEBHOOK_SECRET)
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
 
     # Force settings reload with test env vars
     from app import config as config_module
