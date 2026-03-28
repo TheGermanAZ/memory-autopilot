@@ -59,7 +59,7 @@ export default function Home() {
             See the demo ↓
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/TheGermanAZ/memory-autopilot/tree/main/11labs-project"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors"
@@ -112,7 +112,7 @@ export default function Home() {
         <p className="text-white/30 text-sm">
           Built by German Alvarez &nbsp;·&nbsp;{" "}
           <a
-            href="https://github.com"
+            href="https://github.com/TheGermanAZ/memory-autopilot/tree/main/11labs-project"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white/60 transition-colors underline underline-offset-4"
