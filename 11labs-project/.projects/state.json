@@ -1,5 +1,25 @@
 {
   "version": 1,
-  "providers": {},
-  "resources": {}
+  "providers": {
+    "railway": {
+      "name": "Railway"
+    }
+  },
+  "resources": {
+    "railway-hosting": {
+      "name": "railway-hosting",
+      "providerName": "Railway",
+      "serviceId": "hosting"
+    },
+    "railway-plan": {
+      "name": "railway-plan",
+      "providerName": "Railway",
+      "serviceId": "free"
+    },
+    "railway-postgres": {
+      "name": "railway-postgres",
+      "providerName": "Railway",
+      "serviceId": "postgres"
+    }
+  }
 }

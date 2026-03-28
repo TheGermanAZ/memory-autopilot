@@ -1,12 +1,61 @@
 {
   "version": 1,
   "project": {
-    "merchantId": "acct_1TFiC6IBwkQYg07R",
+    "initializedAt": "2026-03-27T22:04:56.867Z",
     "merchantDisplayName": null,
+    "merchantId": "acct_1TFiC6IBwkQYg07R",
     "projectId": "project_61UP6SGddldGIN8ib16UP69SPNSQkPL2VONNHwB84Pho",
-    "projectName": "11labs-project",
-    "initializedAt": "2026-03-27T22:04:56.867Z"
+    "projectName": "11labs-project"
   },
-  "providers": {},
-  "resources": {}
+  "providers": {
+    "railway": {
+      "accountRequestId": "facctrq_61UP6WaQSgKGLMTt516UP69SPNSQkPL2VONNHwB846Mi",
+      "linkedAt": "2026-03-27T22:09:25.471Z",
+      "providerId": "prvdr_61UK2uWsoydL7tUBp57Fg",
+      "providerName": "Railway",
+      "redirectUrl": null,
+      "requestedAt": "2026-03-27T22:09:25.471Z",
+      "status": "complete"
+    }
+  },
+  "resources": {
+    "railway-hosting": {
+      "configuration": {
+        "repo": "TheGermanAZ/memory-autopilot",
+        "branch": "main"
+      },
+      "createdAt": "2026-03-27T23:14:16.654Z",
+      "lastRevealedAt": "2026-03-27T23:16:31.570Z",
+      "lastStatus": "complete",
+      "name": "railway-hosting",
+      "providerId": "prvdr_61UK2uWsoydL7tUBp57Fg",
+      "providerName": "Railway",
+      "resourceId": "fres_61UP7X6hX38KFoTlH16UP69SPNSQkPL2VONNHwB842Rc",
+      "serviceId": "hosting"
+    },
+    "railway-plan": {
+      "configuration": {},
+      "createdAt": "2026-03-27T22:09:26.766Z",
+      "lastRevealedAt": "2026-03-27T22:09:26.901Z",
+      "lastStatus": "complete",
+      "name": "railway-plan",
+      "providerId": "prvdr_61UK2uWsoydL7tUBp57Fg",
+      "providerName": "Railway",
+      "resourceId": "fres_61UP6WcMl2vjK0tRR16UP69SPNSQkPL2VONNHwB84O3U",
+      "serviceId": "free"
+    },
+    "railway-postgres": {
+      "configuration": {
+        "region": "us-east1"
+      },
+      "createdAt": "2026-03-27T22:09:44.966Z",
+      "lastRevealedAt": "2026-03-27T22:09:45.112Z",
+      "lastStatus": "complete",
+      "name": "railway-postgres",
+      "providerId": "prvdr_61UK2uWsoydL7tUBp57Fg",
+      "providerName": "Railway",
+      "resourceId": "fres_61UP6WdnnhdadKw4W16UP69SPNSQkPL2VONNHwB84Jj6",
+      "serviceId": "postgres"
+    }
+  }
 }
