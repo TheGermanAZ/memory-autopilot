@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://memory-autopilot-production.up.railway.app";
 
 const SAMPLE_TRANSCRIPT = `Customer: Hi, my name is Sarah Chen. I'm calling about my March invoice — I was charged twice for the premium plan.
 Agent: I'm sorry to hear that, Sarah. Can you give me your order number?
