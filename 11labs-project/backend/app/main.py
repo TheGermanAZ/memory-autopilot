@@ -29,7 +29,7 @@ app = FastAPI(title="Memory Autopilot", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins.split(","),
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
